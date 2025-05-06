@@ -99,9 +99,12 @@ class CleanPages implements Module
 
     public function callbackTemplate(string $name, mixed $body = null): void
     {
+        if (!$this->showAdminBar) {
+            wp_deregister_script('admin-bar');
+            wp_deregister_style('admin-bar');
+        }
         remove_action('wp_print_styles', 'print_emoji_styles');
         // @formatter:off
-
         ?>
 <!DOCTYPE html>
 <!--suppress HtmlRequiredLangAttribute -->

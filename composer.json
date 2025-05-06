@@ -48,10 +48,10 @@
             "bin/install-wp-tests.sh $DB_NAME $DB_USER $DB_PASS $DB_HOST latest"
         ]
     },
-    "version": "1.0.0",
     "require-dev": {
         "bojaghi/wp-tests": "^1.1",
         "phpunit/phpunit": "^9",
         "yoast/phpunit-polyfills": "^4.0"
-    }
+    },
+    "version": "1.0.1"
 }
