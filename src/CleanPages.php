@@ -103,7 +103,8 @@ class CleanPages implements Module
             wp_deregister_script('admin-bar');
             wp_deregister_style('admin-bar');
         }
-        remove_action('wp_print_styles', 'print_emoji_styles');
+        remove_action('admin_bar_menu', 'wp_admin_bar_customize_menu', 40); // Remove admin bar's customize menu.
+        remove_action('wp_print_styles', 'print_emoji_styles'); // Remove emoji styles.
         // @formatter:off
         ?>
 <!DOCTYPE html>
@@ -124,7 +125,13 @@ class CleanPages implements Module
     <?php
     do_action('bojaghi/clean-pages/body/begin', $name);
     is_callable($body) && $body();
-    $this->showAdminBar && wp_admin_bar_render();
+    if ($this->showAdminBar) {
+        // Remove customizer support script.
+        add_action('wp_before_admin_bar_render', function () {
+            remove_action('wp_before_admin_bar_render', 'wp_customize_support_script');
+        }, 5);
+        wp_admin_bar_render();
+    }
     wp_print_footer_scripts();
     do_action('bojaghi/clean-pages/body/end', $name);
     ?>
