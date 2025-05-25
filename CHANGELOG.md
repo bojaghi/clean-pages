@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.4
+
+2025-05-25
+
+- Remove more admin bar menu items
+
 ## 1.0.3
 
 2025-05-24

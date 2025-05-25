@@ -29,12 +29,12 @@ class CleanPages implements Module
     private function setupRedirects(array $redirects): void
     {
         $default = [
-            'name'      => '',   // Required, it should be a unique string
-            'condition' => null, // Required, it should be a callable
+            'name'      => '',                          // Required, it should be a unique string
+            'condition' => null,                        // Required, it should be a callable
             'template'  => [$this, 'callbackTemplate'], // Optional, callable.
-            'before'    => null, // Optional, callable.
-            'after'     => null, // Optional, callable.
-            'body'      => null, // Optional, callable.
+            'before'    => null,                        // Optional, callable.
+            'after'     => null,                        // Optional, callable.
+            'body'      => null,                        // Optional, callable.
         ];
 
         foreach ($redirects as $item) {
@@ -81,6 +81,8 @@ class CleanPages implements Module
                 $before($name);
             }
 
+            $this->removeAdminBarMenus();
+
             if (is_callable($template)) {
                 $template($name, $body);
             } elseif (is_string($template) && file_exists($template) && is_file($template) && is_readable($template)) {
@@ -103,7 +105,6 @@ class CleanPages implements Module
             wp_deregister_script('admin-bar');
             wp_deregister_style('admin-bar');
         }
-        remove_action('admin_bar_menu', 'wp_admin_bar_customize_menu', 40); // Remove admin bar's customize menu.
         remove_action('wp_print_styles', 'print_emoji_styles'); // Remove emoji styles.
         // @formatter:off
         ?>
@@ -112,24 +113,26 @@ class CleanPages implements Module
 <html <?php language_attributes(); ?>>
 <!--suppress HtmlRequiredTitleElement -->
 <head>
-    <?php do_action('bojaghi/clean-pages/head/begin', $name); ?>
+    <?php
+    do_action('bojaghi/clean-pages/head/begin', $name);
+    ?>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
     wp_print_head_scripts();
     wp_print_styles();
-    if ($this->showAdminBar) { ?><style>body{margin-top:32px;} @media screen and (max-width:782px){body{margin-top:46px;}}</style><?php } ?>
-    <?php do_action('bojaghi/clean-pages/head/end', $name); ?>
+    do_action('bojaghi/clean-pages/head/end', $name);
+    ?>
+    <?php if ($this->showAdminBar) : ?>
+        <!-- margin for admin bar -->
+        <style>body{margin-top:32px;} @media screen and (max-width:782px){body{margin-top:46px;}}</style>
+    <?php endif; ?>
 </head>
 <body class="<?php echo esc_attr(apply_filters('bojaghi/clean-pages/body/class', '', $name)); ?>">
     <?php
     do_action('bojaghi/clean-pages/body/begin', $name);
     is_callable($body) && $body();
     if ($this->showAdminBar) {
-        // Remove customizer support script.
-        add_action('wp_before_admin_bar_render', function () {
-            remove_action('wp_before_admin_bar_render', 'wp_customize_support_script');
-        }, 5);
         wp_admin_bar_render();
     }
     wp_print_footer_scripts();
@@ -139,5 +142,13 @@ class CleanPages implements Module
 </html>
         <?php
         // @formatter:on
+    }
+
+    private function removeAdminBarMenus(): void
+    {
+        remove_action('admin_bar_menu', 'wp_admin_bar_customize_menu', 40); // Customize
+        remove_action('admin_bar_menu', 'wp_admin_bar_edit_site_menu', 40); // Edit site
+        remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);  // Comments
+        remove_action('admin_bar_menu', 'wp_admin_bar_search_menu', 9999);  // Search
     }
 }

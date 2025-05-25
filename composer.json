@@ -53,5 +53,5 @@
         "phpunit/phpunit": "^9",
         "yoast/phpunit-polyfills": "^4.0"
     },
-    "version": "1.0.3"
+    "version": "1.0.4"
 }
