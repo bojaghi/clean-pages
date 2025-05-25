@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.5
+
+2025-05-25
+
+- Add default body class
+
 ## 1.0.4
 
 2025-05-25

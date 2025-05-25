@@ -128,7 +128,11 @@ class CleanPages implements Module
         <style>body{margin-top:32px;} @media screen and (max-width:782px){body{margin-top:46px;}}</style>
     <?php endif; ?>
 </head>
-<body class="<?php echo esc_attr(apply_filters('bojaghi/clean-pages/body/class', '', $name)); ?>">
+<body class="<?php echo esc_attr(apply_filters('bojaghi/clean-pages/body/class', trim(
+    ($this->showAdminBar ? ' wp-admin-bar': '') .
+    (is_user_logged_in() ? ' logged-in' : '')
+), $name));
+?>">
     <?php
     do_action('bojaghi/clean-pages/body/begin', $name);
     is_callable($body) && $body();
