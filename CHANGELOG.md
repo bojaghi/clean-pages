@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.6
+
+2025-06-09
+
+- Add filter 'bojaghi/clean-pages/head/meta/viewport'
+
 ## 1.0.5
 
 2025-05-25

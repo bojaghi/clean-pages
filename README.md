@@ -104,4 +104,5 @@ return [
   - bojaghi/clean-pages/body/begin: body 태그 시작 부분
   - bojaghi/clean-pages/body/end: body 태그 종료 부분
 - 필터: 2개의 인자를 받습니다. 첫번째는 필터될 내용, 두번재는 name입니다.
+  - bojaghi/clean-pages/head/meta/viewport: meta 태그 viewport 설정 (width=device-width, initial-scale=1)
   - bojaghi/clean-pages/body/class: body 클래스 필터

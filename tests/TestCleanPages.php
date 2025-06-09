@@ -57,6 +57,10 @@ class TestCleanPages extends WP_UnitTestCase
             return 'bojaghi--clean_pages--body--class';
         }, 10, 2);
 
+        add_filter('bojaghi/clean-pages/head/meta/viewport', function () {
+            return 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+        });
+
         ob_start();
         $instance->templateRedirect();
         $output = ob_get_clean();
@@ -71,5 +75,6 @@ class TestCleanPages extends WP_UnitTestCase
         $this->assertStringContainsString('<!-- bojaghi/clean-pages/body/begin -->', $output);
         $this->assertStringContainsString('<!-- bojaghi/clean-pages/body/end -->', $output);
         $this->assertStringContainsString('class="bojaghi--clean_pages--body--class"', $output);
+        $this->assertStringContainsString('content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"', $output);
     }
 }

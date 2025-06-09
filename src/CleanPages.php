@@ -117,7 +117,7 @@ class CleanPages implements Module
     do_action('bojaghi/clean-pages/head/begin', $name);
     ?>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="<?php echo esc_attr(apply_filters('bojaghi/clean-pages/head/meta/viewport', 'width=device-width, initial-scale=1', $name)); ?>">
     <?php
     wp_print_head_scripts();
     wp_print_styles();
