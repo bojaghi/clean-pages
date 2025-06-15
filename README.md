@@ -56,12 +56,14 @@ if (!defined('ABSPATH')) {
 
 return [
     [
-        'name'      => 'my-name',
-        'condition' => function (string $name): bool {},
-        'template'  => function (string $name, mixed $body = null) {},
-        'before'    => function (string $name) {},
-        'body'      => function (string $name) {},
-        'after'     => function (string $name) {},
+        'name'          => 'my-name',
+        'condition'     => function (string $name): bool {},
+        'template'      => function (string $name, mixed $body = null) {},
+        'before'        => function (string $name) {},
+        'body'          => function (string $name) {},
+        'after'         => function (string $name) {},
+        'login_requird' => false,
+        'login_url'     => '',
     ],
     /* ... */
     'exit'           => true,
@@ -85,6 +87,11 @@ return [
 - before: 옵션. 'template' 옵션이 동작하기 전에 호출되는 함수입니다.
 - after: 옵션. 'template' 옵션이 동작한 후 호출되는 함수입니다.
 - body: 옵션. 기본 템플릿이 사용되는 경우, 이 값이 사용됩니다. body 태그가 열리고 난 후 바로 호출됩니다.
+- login_requried: 옵션. true 이면 로그인 체크를 합니다. 기본은 false 입니다. 
+- login_url: 옵션. login_required 옵션이 true 이고, 사용자가 로그인하지 않았을 경우 이동시킬 로그인 주소입니다.
+  lgoin_url 옵션은 문자열 혹은 콜백 주소가 될 수 있습니다. 기본은 빈 문자열입니다.
+  - 문자열은 로그인할 url 입니다. 빈 문자열인 경우, 워드프레스의 기본 로그인 창을 사용합니다. 'redirect_to'라는 쿼리 파라미터에 현제 URI 가 붙습니다. 
+  - 콜백은 1개의 문자열을 인자로 받습니다. 이 문자열은 로그인 후 리다이렉트할 URL 입니다. 콜백은 문자열을 리턴해야 합니다. 
 
 이 배열에 허용되는 키-값은 다음과 같습니다.
 

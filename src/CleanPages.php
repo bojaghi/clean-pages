@@ -29,12 +29,14 @@ class CleanPages implements Module
     private function setupRedirects(array $redirects): void
     {
         $default = [
-            'name'      => '',                          // Required, it should be a unique string
-            'condition' => null,                        // Required, it should be a callable
-            'template'  => [$this, 'callbackTemplate'], // Optional, callable.
-            'before'    => null,                        // Optional, callable.
-            'after'     => null,                        // Optional, callable.
-            'body'      => null,                        // Optional, callable.
+            'name'           => '',                          // Required, it should be a unique string
+            'condition'      => null,                        // Required, it should be a callable
+            'template'       => [$this, 'callbackTemplate'], // Optional, callable.
+            'before'         => null,                        // Optional, callable.
+            'after'          => null,                        // Optional, callable.
+            'body'           => null,                        // Optional, callable.
+            'login_required' => false,                       // Optional, boolean.
+            'login_url'      => '',                          // Optional, string|callable.
         ];
 
         foreach ($redirects as $item) {
@@ -68,16 +70,32 @@ class CleanPages implements Module
         foreach ($this->redirects as $item) {
             $name      = $item['name'];
             $condition = $item['condition'];
-            $template  = $item['template'];
-            $before    = $item['before'];
-            $after     = $item['after'];
-            $body      = $item['body'];
 
-            if (!$condition($name)) {
+            if (!$name || !is_callable($condition) || !$condition($name)) {
                 continue;
             }
 
-            if (is_callable($item['before'])) {
+            $template      = $item['template'];
+            $before        = $item['before'];
+            $after         = $item['after'];
+            $body          = $item['body'];
+            $loginRequired = (bool)$item['login_required'];
+            $loginUrl      = $item['login_url'];
+
+            if ($loginRequired && !is_user_logged_in()) {
+                $redirectUrl = $_SERVER['REQUEST_URI'] ?? '';
+                if (is_callable($loginUrl)) {
+                    $loginUrl = $loginUrl($redirectUrl);
+                } elseif (is_string($loginUrl) && !empty($loginUrl)) {
+                    $loginUrl = add_query_arg('redirect_to', $redirectUrl, $loginUrl);
+                } else {
+                    $loginUrl = wp_login_url($redirectUrl);
+                }
+                wp_redirect($loginUrl);
+                exit;
+            }
+
+            if (is_callable($before)) {
                 $before($name);
             }
 

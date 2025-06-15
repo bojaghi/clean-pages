@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.0
+
+2025-06-16
+
+- Add 'login_required', 'login_url' options.
+
 ## 1.0.6
 
 2025-06-09

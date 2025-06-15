@@ -14,7 +14,12 @@
             "Bojaghi\\CleanPages\\Tests\\": "tests/"
         }
     },
-    "authors": [],
+    "authors": [
+        {
+            "name": "changwoo",
+            "mail": "ep6tri@hotmail.com"
+        }
+    ],
     "require": {
         "php": ">=8.0",
         "bojaghi/contract": "^1.1",
@@ -53,5 +58,5 @@
         "phpunit/phpunit": "^9",
         "yoast/phpunit-polyfills": "^4.0"
     },
-    "version": "1.0.6"
+    "version": "1.1.0"
 }
