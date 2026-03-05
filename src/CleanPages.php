@@ -153,7 +153,7 @@ class CleanPages implements Module
 ?>">
     <?php
     do_action('bojaghi/clean-pages/body/begin', $name);
-    is_callable($body) && $body();
+    is_callable($body) && $body($name);
     if ($this->showAdminBar) {
         wp_admin_bar_render();
     }

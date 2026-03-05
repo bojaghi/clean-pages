@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.1.1
+
+2026-03-05
+
+- Call 'body' function with '$name' parameter
+- Update README.md
+
 ## 1.1.0
 
 2025-06-16
