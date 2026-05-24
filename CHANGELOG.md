@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.2
+
+2026-05-25
+
+- 'login_required' option can be callable
+
 ## 1.1.1
 
 2026-03-05

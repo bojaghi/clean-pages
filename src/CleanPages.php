@@ -79,7 +79,9 @@ class CleanPages implements Module
             $before        = $item['before'];
             $after         = $item['after'];
             $body          = $item['body'];
-            $loginRequired = (bool)$item['login_required'];
+            $loginRequired = (bool)(is_callable($item['login_required']) ?
+                call_user_func($item['login_required'], $name) :
+                $item['login_required']);
             $loginUrl      = $item['login_url'];
 
             if ($loginRequired && !is_user_logged_in()) {
@@ -104,7 +106,9 @@ class CleanPages implements Module
             if (is_callable($template)) {
                 $template($name, $body);
             } elseif (is_string($template) && file_exists($template) && is_file($template) && is_readable($template)) {
-                (function () use ($template, $name, $body) { include $template; })();
+                (function () use ($template, $name, $body) {
+                    include $template;
+                })();
             }
 
             if (is_callable($after)) {
