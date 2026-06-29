@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.3
+
+2026-06-30
+
+- Add initialization code for 'redirects' property
+
 ## 1.1.2
 
 2026-05-25

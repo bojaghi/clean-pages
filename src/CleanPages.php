@@ -39,6 +39,8 @@ class CleanPages implements Module
             'login_url'      => '',                          // Optional, string|callable.
         ];
 
+        $this->redirects = [];
+
         foreach ($redirects as $item) {
             $item = wp_parse_args($item, $default);
             $name = $item['name'];
